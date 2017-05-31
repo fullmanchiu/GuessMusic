@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/data/Const.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/model/GetSong.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/myui/MyGridView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/tools/FileOperate.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/tools/MyPlayer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/tools/Tools.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/ui/AllPassView.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/guessmusic/ui/GuessActivity.java" charset="UTF-8" />
+  </component>
+</project>

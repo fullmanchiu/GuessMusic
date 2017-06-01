@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/start">
+    android:background="@drawable/bc_login">
 
     <LinearLayout
         android:layout_width="260dp"
         android:layout_height="180dp"
         android:orientation="vertical"
-        android:layout_marginTop="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
         android:layout_centerHorizontal="true">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -52,6 +53,7 @@
             android:layout_weight="1"
             android:orientation="horizontal">
             <RelativeLayout
+                android:id="@+id/login_login"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -59,29 +61,32 @@
                     android:id="@+id/login_login_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/login"/>
+                    android:background="@drawable/ib_login"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/login_login_btn"
                     android:textSize="60px"
+                    android:textColor="#042b20"
                     android:text="@string/login_hint"/>
             </RelativeLayout>
             <RelativeLayout
+                android:id="@+id/login_register"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
                 <ImageButton
-                    android:id="@+id/login_regist_btn"
+                    android:id="@+id/login_register_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/regist"/>
+                    android:background="@drawable/ib_register"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/login_regist_btn"
+                    android:layout_toRightOf="@+id/login_register_btn"
                     android:textSize="60px"
-                    android:text="@string/regist_hint"/>
+                    android:textColor="#042b20"
+                    android:text="@string/register_hint"/>
             </RelativeLayout>
 
         </LinearLayout>

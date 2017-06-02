@@ -33,10 +33,12 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GuessActivity extends Activity implements iWordButtonClickListener {
 	// 待选文字数量
@@ -56,6 +58,7 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 	// 文字闪烁次数
 	public final static int SPARD_TIME = 6;
 	private static final String LOG_TAG = "lancelot";
+	private static final int RECHARGE_CODE = 101;
 
 	// 唱片，拨杆，开始按钮动画
 	private Animation mDiscAnim, mDiscBarInAnim, mDiscBarOutAnim;
@@ -98,6 +101,7 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 
 	private TextView mTvCurrentUser;
 	private UserService mUserService;
+	private ImageButton mAddGold;
 	private User mUser;
 	private Context mContext = GuessActivity.this;
 
@@ -214,7 +218,14 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 		mTvCurrentUser.setText(mUser.getUsername());
 		// 设置文字框的监听事件
 		mMyGridView.registOnWordButtonClick(this);
-
+		mAddGold = (ImageButton) findViewById(R.id.btn_bar_add_coins);
+		mAddGold.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Log.i(LOG_TAG,"addgold add gold");
+				handleRecharge();
+			}
+		});
 		// 初始化文字框数据
 		initCurrentData();
 
@@ -226,6 +237,28 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+			case RECHARGE_CODE:
+				if (resultCode == RESULT_OK) {
+					Toast.makeText(mContext,"充值成功",Toast.LENGTH_SHORT).show();
+					mCurrentCoins = mUserService.getGold(mUser.getUsername());
+					Log.i(LOG_TAG,"mCurrentCoins:" + mCurrentCoins);
+					handleCoins(0);
+					//mTextCurrentCoin.setText(mCurrentCoins);
+				} else {
+					Toast.makeText(mContext,"充值失败",Toast.LENGTH_SHORT).show();
+				}
+		}
+	}
+
+	private void handleRecharge() {
+		Intent intent = new Intent(mContext,RechargeActivity.class);
+		intent.putExtra("username",mUser.getUsername());
+		startActivityForResult(intent, RECHARGE_CODE);
+	}
+
 	private void initUser() {
 		Intent intent = getIntent();
 		String username = intent.getStringExtra("username");
@@ -234,6 +267,12 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 		int gold = mUserService.getGold(username);
 		Log.i(LOG_TAG,"username:" + username + " level:" + level + "gold:" + gold);
 		mUser = new User(username,level,gold);
+	}
+
+	@Override
+	protected void onResume() {
+		//mTextCurrentCoin.setText(mUser.getGold());
+		super.onResume();
 	}
 
 	@Override

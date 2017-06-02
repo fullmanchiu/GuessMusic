@@ -31,7 +31,8 @@
             android:label="@string/title_activity_pass_view" />
         <activity android:name=".ui.GuessActivity" />
         <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.RegisterActivity"></activity>
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.RechargeActivity"></activity>
     </application>
 
 </manifest>

@@ -70,4 +70,12 @@ public class UserService {
         values.put("gold",mCurrentCoins);
         sdb.update("user", values , "username = ?", new String[] {username});
     }
+
+    public void setGold(String username, int gold) {
+        Log.i(LOG_TAG, "setGold username:" + username + " gold:" + gold);
+        SQLiteDatabase sdb = mDataBaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("gold",gold);
+        sdb.update("user", values , "username = ?", new String[] {username});
+    }
 }

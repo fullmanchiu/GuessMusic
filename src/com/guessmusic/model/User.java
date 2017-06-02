@@ -4,21 +4,21 @@ package com.guessmusic.model;
  * Created by lance on 17-6-1.
  */
 
-public class UserInfo {
+public class User {
     private String username;
     private String password;
     private int level;
     private int gold;
 
-    public UserInfo(String username, String password) {
+    public User(String username, String password, int level, int gold) {
         this.username = username;
         this.password = password;
-
+        this.level = level;
+        this.gold = gold;
     }
 
-    public UserInfo(String username, String password, int level, int gold) {
+    public User(String username, int level, int gold) {
         this.username = username;
-        this.password = password;
         this.level = level;
         this.gold = gold;
     }

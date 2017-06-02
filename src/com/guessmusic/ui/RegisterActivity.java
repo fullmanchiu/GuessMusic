@@ -11,11 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.guessmusic.R;
+import com.guessmusic.model.User;
+import com.guessmusic.model.UserService;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
     private static final String LOG_TAG = "lancelot";
     private EditText etUsername, etPwd, etPwd2;
     private Button btnRegister;
+    private UserService mUserService;
     Context mContext = RegisterActivity.this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +60,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             return;
         }
         writeUserInfoToDatabase(username,password);
+        finish();
     }
 
     private void writeUserInfoToDatabase(String username, String password) {
-
+        mUserService = new UserService(mContext);
+        User user = new User(username,password,0,0);
+        mUserService.register(user);
     }
 
     private void showToast(String toast) {

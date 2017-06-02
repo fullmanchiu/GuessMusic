@@ -12,6 +12,14 @@
         android:layout_marginLeft="10dp"
         android:background="@drawable/bar_back_sel" />
 
+    <TextView
+        android:id="@+id/top_bar_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/username"
+        android:layout_toRightOf="@id/btn_bar_back"/>
+
     <FrameLayout
         android:id="@+id/layout_bar_coin"
         android:layout_width="wrap_content"

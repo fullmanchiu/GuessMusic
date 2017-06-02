@@ -10,17 +10,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
-    static String name="user.db";
-    static int dbVersion=1;
+    private static final String DB_NAME = "user.db";
+    private static final int DB_VERSION = 1;
+    private Context mContext;
+    private static final String CREATE_USER = "create table user ("
+            + "id integer primary key autoincrement, "
+            + "username text, "
+            + "password text, "
+            + "level integer, "
+            + "gold integer)";
 
     public DataBaseHelper(Context context) {
-        super(context, name, null, dbVersion);
+        super(context, DB_NAME, null, DB_VERSION);
+        mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql="create table user(id integer primary key autoincrement,username varchar(20),password varchar(20), integer,sex varchar(2))";
-        sqLiteDatabase.execSQL(sql);
+        sqLiteDatabase.execSQL(CREATE_USER);
     }
 
     @Override

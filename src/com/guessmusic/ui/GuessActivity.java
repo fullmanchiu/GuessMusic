@@ -9,6 +9,8 @@ import java.util.TimerTask;
 import com.guessmusic.R;
 import com.guessmusic.data.Const;
 import com.guessmusic.model.GetSong;
+import com.guessmusic.model.User;
+import com.guessmusic.model.UserService;
 import com.guessmusic.model.WordButton;
 import com.guessmusic.model.iDialogButtonListener;
 import com.guessmusic.model.iWordButtonClickListener;
@@ -19,8 +21,11 @@ import com.guessmusic.tools.Tools;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -50,6 +55,7 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 
 	// 文字闪烁次数
 	public final static int SPARD_TIME = 6;
+	private static final String LOG_TAG = "lancelot";
 
 	// 唱片，拨杆，开始按钮动画
 	private Animation mDiscAnim, mDiscBarInAnim, mDiscBarOutAnim;
@@ -90,11 +96,17 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 	private TextView mTextCurrentCoin;
 	private int mCurrentCoins;
 
+	private TextView mTvCurrentUser;
+	private UserService mUserService;
+	private User mUser;
+	private Context mContext = GuessActivity.this;
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_guess);
-
+		initUser();
 		/**
 		 * 控件初始化
 		 */
@@ -185,19 +197,21 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 		});
 
 		// 初始化当前关卡数
-		mCurrentIndex = FileOperate.dataLoad(GuessActivity.this)[FileOperate.GAME_LEVEL];
-
+		//mCurrentIndex = FileOperate.dataLoad(GuessActivity.this)[FileOperate.GAME_LEVEL];
+		mCurrentIndex = mUser.getLevel();
 		// 显示当前关的索引
 		mTextCurrentIndex = (TextView) findViewById(R.id.text_level);
 		mTextCurrentIndex.setText((mCurrentIndex + 1) + "");
 
 		// 初始化当前金币数
-		mCurrentCoins = FileOperate.dataLoad(GuessActivity.this)[FileOperate.GAME_COINS];
-
+		//mCurrentCoins = FileOperate.dataLoad(GuessActivity.this)[FileOperate.GAME_COINS];
+		mCurrentCoins = mUser.getGold();
 		// 显示当前金币数
 		mTextCurrentCoin = (TextView) findViewById(R.id.text_bar_coins);
 		mTextCurrentCoin.setText(mCurrentCoins + "");
 
+		mTvCurrentUser = (TextView) findViewById(R.id.top_bar_username);
+		mTvCurrentUser.setText(mUser.getUsername());
 		// 设置文字框的监听事件
 		mMyGridView.registOnWordButtonClick(this);
 
@@ -212,6 +226,16 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 
 	}
 
+	private void initUser() {
+		Intent intent = getIntent();
+		String username = intent.getStringExtra("username");
+		mUserService = new UserService(mContext);
+		int level = mUserService.getLevel(username);
+		int gold = mUserService.getGold(username);
+		Log.i(LOG_TAG,"username:" + username + " level:" + level + "gold:" + gold);
+		mUser = new User(username,level,gold);
+	}
+
 	@Override
 	protected void onPause() {
 		// 程序挂起时取消盘片转动动画
@@ -222,7 +246,8 @@ public class GuessActivity extends Activity implements iWordButtonClickListener 
 		super.onPause();
 
 		// 保存数据
-		FileOperate.dataSave(GuessActivity.this, mCurrentIndex, mCurrentCoins);
+		//FileOperate.dataSave(GuessActivity.this, mCurrentIndex, mCurrentCoins);
+		mUserService.saveData(mUser.getUsername(), mCurrentIndex, mCurrentCoins);
 	}
 
 	/**
